@@ -1,5 +1,6 @@
 const SPREADSHEET_ID = "1RRsvxa-ZRaJl5qBzeBgtCrh3HEvGUZ0BqYjkDwgkB9A";
 const WORKBOOK_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=xlsx`;
+const COUNTER_URL = "https://script.google.com/macros/s/AKfycbyP6m2qtTv24mPj9g74pR9Ur0E8SluHeynF134J3_ZYSmnfRXgkmQcMA2m1auTZZtt2/exec";
 
 const FALLBACK_SHEETS = [
   "Drop off babysitters",
@@ -313,4 +314,15 @@ async function init() {
   }
 }
 
+function trackPageOpen() {
+  fetch(COUNTER_URL, {
+    method: "GET",
+    mode: "no-cors",
+    cache: "no-store",
+  }).catch((error) => {
+    console.warn("Could not track page open.", error);
+  });
+}
+
+trackPageOpen();
 init();
