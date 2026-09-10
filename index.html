@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baltimore Daycare Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Baltimore Playgroups</h1>
+    </div>
+  </header>
+
+  <main id="app">
+    <p class="update-note">
+      To add or update a listing, please WhatsApp or text Rosa Bennett at
+      <a href="tel:4433517672">443-351-7672</a>.
+    </p>
+    <div id="loading" class="status-message">Loading daycare options...</div>
+    <div id="error" class="status-message status-error hidden"></div>
+    <section id="daycare-list" class="daycare-list hidden" aria-live="polite"></section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
