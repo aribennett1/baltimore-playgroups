@@ -223,6 +223,40 @@ h1 {
   font-style: italic;
 }
 
+.visitor-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.visitor-card {
+  width: min(100%, 420px);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.visitor-label {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.visitor-count {
+  margin: 0;
+  color: var(--accent-strong);
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(3rem, 14vw, 5.5rem);
+  line-height: 1;
+}
+
 @media (max-width: 640px) {
   .site-header {
     padding-top: 1.5rem;
