@@ -5,12 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baltimore Playgroups Visitors</title>
   <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="preconnect" href="https://script.googleusercontent.com">
   <script>
-    window.visitorCountPromise = fetch("https://script.google.com/macros/s/AKfycbyP6m2qtTv24mPj9g74pR9Ur0E8SluHeynF134J3_ZYSmnfRXgkmQcMA2m1auTZZtt2/exec?readOnly=true", {
+    fetch("https://script.google.com/macros/s/AKfycbyP6m2qtTv24mPj9g74pR9Ur0E8SluHeynF134J3_ZYSmnfRXgkmQcMA2m1auTZZtt2/exec?readOnly=true", {
       cache: "no-store",
-    }).then((response) => response.json());
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const countEl = document.getElementById("visitor-count");
+        countEl.textContent = Number(data.count || 0).toLocaleString();
+      })
+      .catch((error) => {
+        const countEl = document.getElementById("visitor-count");
+        countEl.textContent = "Unavailable";
+        console.error(error);
+      });
   </script>
-  <script src="visitors.js" defer></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
