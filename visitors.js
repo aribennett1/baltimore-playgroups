@@ -2,17 +2,21 @@ const COUNTER_URL = "https://script.google.com/macros/s/AKfycbyP6m2qtTv24mPj9g74
 
 async function loadVisitorCount() {
   const countEl = document.getElementById("visitor-count");
-  const url = new URL(COUNTER_URL);
-  url.searchParams.set("readOnly", "true");
 
   try {
-    const response = await fetch(url, { cache: "no-store" });
-    const data = await response.json();
+    const data = await (window.visitorCountPromise || fetchVisitorCount());
     countEl.textContent = Number(data.count || 0).toLocaleString();
   } catch (error) {
     countEl.textContent = "Unavailable";
     console.error(error);
   }
+}
+
+async function fetchVisitorCount() {
+  const url = new URL(COUNTER_URL);
+  url.searchParams.set("readOnly", "true");
+  const response = await fetch(url, { cache: "no-store" });
+  return response.json();
 }
 
 loadVisitorCount();
