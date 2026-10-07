@@ -200,6 +200,18 @@ h1 {
   background: var(--accent-soft);
 }
 
+.last-updated {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0.85rem 0 0;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  background: #eef4f3;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
 .label {
   color: var(--muted);
   font-size: 0.74rem;

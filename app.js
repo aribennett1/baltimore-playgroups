@@ -19,6 +19,7 @@ const FIELD_ALIASES = {
   location: ["location"],
   rate: ["rate/hr", "rate"],
   notes: ["notes", "note"],
+  lastUpdated: ["last updated", "updated", "last update"],
 };
 
 const loadingEl = document.getElementById("loading");
@@ -107,7 +108,27 @@ function cleanItem(item) {
     location: stripFieldLabel(item.location, "Location"),
     rate: stripFieldLabel(item.rate, "Rate/hr"),
     notes: stripFieldLabel(stripFieldLabel(item.notes, "Notes"), "Note"),
+    lastUpdated: stripFieldLabel(item.lastUpdated, "Last Updated"),
   };
+}
+
+function formatLastUpdated(value) {
+  if (!value) {
+    return "";
+  }
+
+  const normalizedValue = String(value).trim().replace(" ", "T");
+  const date = new Date(normalizedValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value).trim();
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
 }
 
 async function fetchWithTimeout(url, timeout = 4500) {
@@ -130,12 +151,13 @@ function rowsToSheet(sheetName, rows) {
     location: findColumn(headers, FIELD_ALIASES.location),
     rate: findColumn(headers, FIELD_ALIASES.rate),
     notes: findColumn(headers, FIELD_ALIASES.notes),
+    lastUpdated: findColumn(headers, FIELD_ALIASES.lastUpdated),
   };
   const hasHeaderRow = columns.name >= 0 || columns.phone >= 0;
   const dataRows = hasHeaderRow ? rows.slice(1) : rows;
   const resolvedColumns = hasHeaderRow
     ? columns
-    : { name: 0, phone: 1, hours: 2, location: 3, rate: 4, notes: 5 };
+    : { name: 0, phone: 1, hours: 2, location: 3, rate: 4, notes: 5, lastUpdated: 6 };
 
   return {
     name: sheetName,
@@ -146,7 +168,8 @@ function rowsToSheet(sheetName, rows) {
       location: cell(row, resolvedColumns.location),
       rate: cell(row, resolvedColumns.rate),
       notes: cell(row, resolvedColumns.notes),
-    })).filter((item) => item.name || item.phone || item.hours || item.location || item.rate || item.notes),
+      lastUpdated: cell(row, resolvedColumns.lastUpdated),
+    })).filter((item) => item.name || item.phone || item.hours || item.location || item.rate || item.notes || item.lastUpdated),
   };
 }
 
@@ -259,6 +282,14 @@ function createCard(item) {
     const notes = createDetail("Notes", item.notes);
     notes.classList.add("notes-detail");
     details.appendChild(notes);
+  }
+
+  if (item.lastUpdated) {
+    const updated = document.createElement("p");
+    updated.className = "last-updated";
+    updated.textContent = `Last Updated: ${formatLastUpdated(item.lastUpdated)}`;
+    card.append(header, details, updated);
+    return card;
   }
 
   card.append(header, details);
